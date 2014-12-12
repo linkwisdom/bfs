@@ -6,8 +6,10 @@
  */
  
 define(function (require, fileSystem) {
-    // 为了支持更多系统建议自定义绑定系统的Deferred对象
-    var Deferred = window.Deferred || (window.$ && $.Deferred);
+    var Promise = require('./Chain');
+    
+    // 为了支持更多系统建议自定义绑定系统的Promise对象
+    // var Deferred = window.Deferred || (window.$ && $.Deferred);
     
     window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
 
@@ -103,15 +105,15 @@ define(function (require, fileSystem) {
     function pipeCall(callback) {
         // 如果没有回调函数则支持异步链
         if (!callback) {
-            var def = new Deferred();
+            var promise = new Promise();
             callback = function (data, error) {
                 if (error) {
-                    def.reject(error);
+                    promise.reject(error);
                 } else {
-                    def.resolve(data);
+                    promise.resolve(data);
                 }
             };
-            callback.deferred = def;
+            callback.promise = promise;
         }
         return callback;
     }
@@ -122,7 +124,7 @@ define(function (require, fileSystem) {
      * 
      * @param {string} filename 文件名
      * @param {Object} option 可选择参数
-     * @return {Deferred}
+     * @return {Promise}
      */
     fileSystem.openFile = function (filename, option, callback) {
         if (typeof option === 'function') {
@@ -149,7 +151,7 @@ define(function (require, fileSystem) {
             }
         );
 
-        return (callback = pipeCall(callback)).deferred;
+        return (callback = pipeCall(callback)).promise;
     };
 
     /**
@@ -158,7 +160,7 @@ define(function (require, fileSystem) {
      * 
      * @param {string} filename 文件名
      * @param {Object} option 可选择参数
-     * @return {Deferred}
+     * @return {Promise}
      */
     fileSystem.readFile = function (filename, option, callback) {
         if (typeof option === 'function') {
@@ -176,14 +178,13 @@ define(function (require, fileSystem) {
                     callback(null, error);
                     return;
                 }
-                
                 reader.onloadend = function (e) {
                     callback(this.result);
                 };
             }
         );
 
-        return (callback = pipeCall(callback)).deferred;
+        return (callback = pipeCall(callback)).promise;
     };
 
     /**
@@ -193,7 +194,7 @@ define(function (require, fileSystem) {
      * 
      * @param {string} filename 文件名
      * @param {Object} option 可选择参数
-     * @return {Deferred}
+     * @return {Promise}
      */
     fileSystem.writeFile = function (filename, option, callback) {
         if (typeof option === 'function') {
@@ -238,7 +239,7 @@ define(function (require, fileSystem) {
             }
         );
 
-        return (callback = pipeCall(callback)).deferred;
+        return (callback = pipeCall(callback)).promise;
     };
 
     return fileSystem;
