@@ -18,23 +18,23 @@ define(function (require, fileSystem) {
         var msg = '';
         switch (e.code) {
             case FileError.QUOTA_EXCEEDED_ERR:
-              msg = 'QUOTA_EXCEEDED_ERR';
-              break;
+                msg = 'QUOTA_EXCEEDED_ERR';
+                break;
             case FileError.NOT_FOUND_ERR:
-              msg = 'NOT_FOUND_ERR';
-              break;
+                msg = 'NOT_FOUND_ERR';
+                break;
             case FileError.SECURITY_ERR:
-              msg = 'SECURITY_ERR';
-              break;
+                msg = 'SECURITY_ERR';
+                break;
             case FileError.INVALID_MODIFICATION_ERR:
-              msg = 'INVALID_MODIFICATION_ERR';
-              break;
+                msg = 'INVALID_MODIFICATION_ERR';
+                break;
             case FileError.INVALID_STATE_ERR:
-              msg = 'INVALID_STATE_ERR';
-              break;
+                msg = 'INVALID_STATE_ERR';
+                break;
             default:
-              msg = 'Unknown Error';
-              break;
+                msg = 'Unknown Error';
+                break;
         };
     };
 
@@ -70,6 +70,8 @@ define(function (require, fileSystem) {
                 fileEntry.file(function (file) {
                     var reader = new FileReader();
                     reader.readAsText(file);
+                    // 优化大数据量的情况
+                    // reader.readAsArrayBuffer(100)
                     callback(reader);
                 });
             }
@@ -207,7 +209,7 @@ define(function (require, fileSystem) {
         if (typeof option == 'string') {
             option = {
                 content: option,
-                size: option.length * 2 + 100
+                size: option.length * 4
             };
         }
 
@@ -230,12 +232,16 @@ define(function (require, fileSystem) {
                     callback(null, error);
                 };
 
-                if (option.content instanceof Blob) {
-                    writer.write(option.content);
-                } else {
-                    var blob = new Blob([option.content], { type: 'text/plain' });
-                    writer.write(blob);
+                var blob = option.content;
+                if (!(blob instanceof Blob)) {
+                    blob = new Blob([option.content], { type: 'text/plain' });
                 }
+
+                if (option.append) {
+                    writer.seek(writer.length);
+                }
+
+                writer.write(blob);
             }
         );
 
