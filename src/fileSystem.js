@@ -6,7 +6,7 @@
  */
 
 define(function (require, fileSystem) {
-    var logger = window.console;
+    var logger = window.logger || window.console;
     var Promise = require('./Chain');
     var FileError = window.FileError;
 
@@ -21,12 +21,22 @@ define(function (require, fileSystem) {
      * @param {Function} callback 回调函数
      */
     function getReader(fs, option, callback) {
+        var start = option.start || 0;
+        var end = 0;
         fs.root.getFile(
             option.filename, option,
             function (fileEntry) {
                 fileEntry.file(function (file) {
+                    end = option.end
+                        || (option.size && (option.start + option.size))
+                        || file.size;
                     var reader = new FileReader();
-                    reader.readAsText(file);
+                    if (start || end) {
+                        reader.readAsText(file.slice(start, end));
+                    }
+                    else {
+                        reader.readAsText(file);
+                    }
                     // 优化大数据量的情况
                     // reader.readAsArrayBuffer(100)
                     callback(reader);
@@ -248,6 +258,10 @@ define(function (require, fileSystem) {
                     callback(null, error);
                     return;
                 }
+                reader.onprogress = function (e) {
+                    logger.log('%s / %s', e.loaded, e.total);
+                };
+
                 reader.onloadend = function (e) {
                     callback(this.result);
                 };
@@ -344,6 +358,8 @@ define(function (require, fileSystem) {
 
                 fileEntry.file(function (file) {
                     info.size = file.size;
+                    info.type = file.type;
+                    info.lastModifiedDate =  file.lastModifiedDate;
                     counter--;
                     if (counter === 0) {
                         chain.resolve(list);
