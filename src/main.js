@@ -5,7 +5,7 @@
 
 define(function (require, exports) {
     exports = require('./fileSystem');
-    exports.jsZip = require('./vendor/jszip');
     exports.saveAs = require('./vendor/FileSaver');
+    exports.Zip = require('./Zip');
     return exports;
 });
