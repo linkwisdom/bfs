@@ -55,6 +55,14 @@ define(function (require, exports) {
         return chain;
     };
 
+    Chain.prototype.ensure = function (fullfill) {
+        var chain = new Chain();
+        this.then(fullfill, fullfill).then(function (data) {
+            chain.resolve(data);
+        });
+        return chain;
+    };
+
     /**
      * console中打印结果
      * @return {Promise}

@@ -75,6 +75,9 @@ define(function (require, fileSystem) {
             option.filename, option,
             function (fileEntry) {
                 fileEntry.remove(callback);
+            },
+            function (error) {
+                callback(null, error);
             }
         );
     }
@@ -414,7 +417,7 @@ define(function (require, fileSystem) {
         }
 
         option.forWrite = true;
-        option.exclusive = true;
+        option.exclusive = false;
         fileSystem.openFile(
             filename,
             option,
@@ -424,7 +427,7 @@ define(function (require, fileSystem) {
                     return;
                 }
                 writer.onwriteend = function (e) {
-                    callback(e);
+                    callback(option.content);
                 };
 
                 writer.onerror = function (error) {
