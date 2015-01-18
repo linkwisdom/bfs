@@ -85,6 +85,7 @@ define(function (require, exports) {
     /**
      * 编辑状态信息
      *
+     * @param {string} message log信息
      * @return {Promise}
      */
     Chain.prototype.showLog = function (message) {

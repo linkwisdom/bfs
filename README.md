@@ -2,6 +2,20 @@ bfs (browser-end filesystem)
 ===
 浏览器端文件系统API
 
+## 文件说明
+
+### 相关说明
+- 项目源于百度凤巢离线物料管理项目
+
+- 相关项目
+
+    [imdb indexedDB-manage 数据库管理接口](https://github.com/linkwisdom/imdb.git)
+    [web-component 标签化组件开发](https://github.com/linkwisdom/web-component.git)
+
+- 应用示例
+    [离线记事本](http://liandong.org/bfs/)
+
+
 ## 使用方法
 -----
 

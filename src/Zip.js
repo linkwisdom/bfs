@@ -9,6 +9,13 @@ define(function (require, exports) {
     var Zip = require('./vendor/jszip');
     var fs = require('./fileSystem');
 
+    /**
+     * 添加文件到压缩包中
+     *
+     * @param {string} fileName 文件名
+     * @param {string} content  文件内容
+     * @return {Object}
+     */
     Zip.prototype.addFile = function (fileName, content) {
         var ss = fileName.split('/');
         fileName = ss.pop();
@@ -30,6 +37,14 @@ define(function (require, exports) {
         return this;
     };
 
+    /**
+     * 存储为
+     * - 存储到文件系统
+     *
+     * @param  {string}   zipName  压缩包名称
+     * @param  {Function} callback 回调名称
+     * @return {Promise}
+     */
     Zip.prototype.saveAs = function (zipName, callback) {
         var content = this.generate(
             {
@@ -37,9 +52,15 @@ define(function (require, exports) {
                 compression: 'DEFLATE'
             }
         );
-        fs.writeFile(zipName, content, callback);
+        return fs.writeFile(zipName, content, callback);
     };
 
+    /**
+     * 存储为
+     * - 以下载方式存储文件
+     *
+     * @param  {string} zipName  压缩包名称
+     */
     Zip.prototype.downloadAs = function (zipName) {
         var content = this.generate(
             {
