@@ -1,5 +1,6 @@
 /**
- * @file 超级编辑器
+ * @file 入口文件
+ *
  * @author Liandong Liu (liuliandong01@baidu.com)
  */
 

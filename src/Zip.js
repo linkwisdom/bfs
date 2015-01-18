@@ -1,6 +1,8 @@
 /**
- * @file Promise 扩展支持then与done
- * 支持异步resolve, 支持链式扩展
+ * @file Zip文件压缩
+ * - 本文件是只做了文件api封装
+ * - 采用开源项目jsZip压缩文件
+ * - 采用开源项目saveAs下载文件
  *
  * @author Liandong Liu (liuliandong01@baidu.com)
  */
