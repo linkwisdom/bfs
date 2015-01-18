@@ -3,7 +3,7 @@ bfs (browser-end filesystem)
 浏览器端文件系统API
 
 ## 项目说明
-
+- 本项目仅仅适用于chrome高版本(chrome31+), 包括webkit内核浏览器；
 - 项目源于百度凤巢离线物料管理项目
 
 - 相关项目
