@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Bfs by linkwisdom</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Bfs</h1>
+        <p>浏览器端文件系统API</p>
+        <p class="view"><a href="https://github.com/linkwisdom/bfs">View the Project on GitHub <small>linkwisdom/bfs</small></a></p>
+        <ul>
+          <li><a href="https://github.com/linkwisdom/bfs/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/linkwisdom/bfs/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/linkwisdom/bfs">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="bfs-browser-end-filesystem" class="anchor" href="#bfs-browser-end-filesystem" aria-hidden="true"><span class="octicon octicon-link"></span></a>bfs (browser-end filesystem)</h1>
+
+<p>浏览器端文件系统API</p>
+
+<h2>
+<a id="使用方法" class="anchor" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>使用方法</h2>
+
+<hr>
+
+<h3>
+<a id="读取文件内容" class="anchor" href="#%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9" aria-hidden="true"><span class="octicon octicon-link"></span></a>读取文件内容</h3>
+
+<div class="highlight highlight-js"><pre>    <span class="pl-c">// 读取文件内容；并且打印结果</span>
+    fs.readFile(<span class="pl-s1"><span class="pl-pds">'</span>test.txt<span class="pl-pds">'</span></span>).<span class="pl-sc">display</span>();
+
+    <span class="pl-c">// 异步方式读取文件内容</span>
+    fs.readFile(<span class="pl-s1"><span class="pl-pds">'</span>test.txt<span class="pl-pds">'</span></span>).then(<span class="pl-st">function</span> (<span class="pl-vpf">content</span>) {
+        <span class="pl-en">console</span><span class="pl-s3">.log</span>(content);
+    });
+
+    <span class="pl-c">// 回调方式读取文件内容</span>
+    fs.readFile(<span class="pl-s1"><span class="pl-pds">'</span>test.txt<span class="pl-pds">'</span></span>, <span class="pl-st">function</span> (<span class="pl-vpf">content</span>) {
+        <span class="pl-en">console</span><span class="pl-s3">.log</span>(content);
+    });</pre></div>
+
+<h3>
+<a id="读取文件列表" class="anchor" href="#%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E5%88%97%E8%A1%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>读取文件列表</h3>
+
+<div class="highlight highlight-js"><pre>    <span class="pl-c">// 以表格详情方式打印文件列表信息</span>
+    fs.listFiles(<span class="pl-s1"><span class="pl-pds">'</span>mydir/<span class="pl-pds">'</span></span>).<span class="pl-sc">display</span>();
+
+    <span class="pl-c">// 获取文件具体内容</span>
+    fs.listFiles(<span class="pl-s1"><span class="pl-pds">'</span>/<span class="pl-pds">'</span></span>).then(<span class="pl-st">function</span>() {
+        <span class="pl-k">return</span> list.map(<span class="pl-st">function</span> (<span class="pl-vpf">file</span>) {
+            <span class="pl-k">return</span> {
+                name<span class="pl-k">:</span> file.<span class="pl-sc">name</span>, <span class="pl-c">// 文件名称</span>
+                size<span class="pl-k">:</span> file.<span class="pl-sc">size</span>, <span class="pl-c">// 文件大小</span>
+                isDir<span class="pl-k">:</span> file.isDir <span class="pl-c">// 是否文件夹</span>
+            };
+        });
+    }).<span class="pl-sc">display</span>();</pre></div>
+
+<h3>
+<a id="读取文件部分内容" class="anchor" href="#%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6%E9%83%A8%E5%88%86%E5%86%85%E5%AE%B9" aria-hidden="true"><span class="octicon octicon-link"></span></a>读取文件部分内容</h3>
+
+<div class="highlight highlight-js"><pre>    <span class="pl-c">// 翻页方式读取文件内容</span>
+    fs.readBuffer(<span class="pl-s1"><span class="pl-pds">'</span>test.txt<span class="pl-pds">'</span></span>, {start<span class="pl-k">:</span> <span class="pl-c1">1000</span>, size<span class="pl-k">:</span> <span class="pl-c1">1000</span>}).<span class="pl-sc">display</span>();</pre></div>
+
+<h3>
+<a id="写入文件" class="anchor" href="#%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6" aria-hidden="true"><span class="octicon octicon-link"></span></a>写入文件</h3>
+
+<div class="highlight highlight-js"><pre>    <span class="pl-c">// 写入文件</span>
+    fs.readFile(<span class="pl-s1"><span class="pl-pds">'</span>test.txt<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>file-content<span class="pl-pds">'</span></span>).<span class="pl-sc">display</span>();
+    <span class="pl-c">// 写入指定位置</span>
+    fs.readFile(<span class="pl-s1"><span class="pl-pds">'</span>test.txt<span class="pl-pds">'</span></span>, {
+        start<span class="pl-k">:</span> <span class="pl-c1">1000</span>,
+        content<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>file-content<span class="pl-pds">'</span></span>
+    }).<span class="pl-sc">display</span>();</pre></div>
+
+<h3>
+<a id="追加方式写入文件" class="anchor" href="#%E8%BF%BD%E5%8A%A0%E6%96%B9%E5%BC%8F%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6" aria-hidden="true"><span class="octicon octicon-link"></span></a>追加方式写入文件</h3>
+
+<div class="highlight highlight-js"><pre>    fs.appendFile(<span class="pl-s1"><span class="pl-pds">'</span>test.txt<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span>file-content<span class="pl-pds">'</span></span>).<span class="pl-sc">display</span>();</pre></div>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/linkwisdom">linkwisdom</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
