@@ -7,6 +7,8 @@
 
 define(function (require, exports) {
     var Zip = require('./vendor/jszip');
+    var fs = require('./fileSystem');
+
     Zip.prototype.addFile = function (fileName, content) {
         var ss = fileName.split('/');
         fileName = ss.pop();
@@ -27,7 +29,7 @@ define(function (require, exports) {
         folder.file(fileName, content);
         return this;
     };
-    
+
     Zip.prototype.saveAs = function (zipName, callback) {
         var content = this.generate(
             {

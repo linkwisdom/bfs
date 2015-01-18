@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="author" content="liandong" />
+    <title>离线记事本</title>
+    <style type="text/css">
+        #edit-panel {
+            height: 80vh;
+            width: 60vw;
+            overflow: scroll;
+            outline: 2px solid #EEE;
+            margin-top: 10px;
+            padding: 10px;
+            line-height: 25px;
+        }
+        #main .panel {
+            width: 60vw;
+            margin: 15px auto;
+        }
+        #file-list {
+            width: 15vw;
+            position: absolute;
+            background-color: #EEE; 
+            left: 0;
+            top: 0;
+            height: 100vh;
+            border-right: 1px solid #888;
+        }
+        #file-list .title {
+            padding: 10px 15px;
+            border-bottom: 1px solid #888;
+        }
+        #file-list a {
+            text-decoration: none;
+            line-height: 25px;
+            color: #333;
+        }
+        a:visited: {
+            color: #333;
+        }
+    </style>
+    <script src="http://s1.bdstatic.com/r/www/cache/ecom/esl/1-8-6/esl.js"></script>
+    <script src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+    require.config({
+        'baseUrl': './src',
+        'packages': [
+            {
+                'name': 'bfs',
+                'location': '../../src',
+                'main': 'main'
+            }
+        ]
+    });
+    </script>
+</head>
+
+<body>
+    <div id="main">
+        <div id="file-list">
+            <div class="title">文件列表</div>
+            <ul class="list"></ul>
+        </div>
+        <div class="panel"> 编辑：<input id="blog-name" value="blog.html">
+            <div id="edit-panel" placeholder="think" CONTENTEDITABLE></div>
+         </div>
+        <div class="panel">
+            <div id="show-panel"></div>
+         </div>
+    </div>
+    <script>
+    require(['bfs', 'main'], function (bfs, main) {
+        window.fs = bfs;
+        window.test = main;
+    });
+    </script>
+</body>
+</html>

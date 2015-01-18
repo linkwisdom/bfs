@@ -55,6 +55,12 @@ define(function (require, exports) {
         return chain;
     };
 
+    /**
+     * 确保执行
+     *
+     * @param  {Function} fullfill 处理函数
+     * @return {Chain}
+     */
     Chain.prototype.ensure = function (fullfill) {
         var chain = new Chain();
         this.then(fullfill, fullfill).then(function (data) {
@@ -65,6 +71,9 @@ define(function (require, exports) {
 
     /**
      * console中打印结果
+     * - 为了方便调试、开发
+     * - 业务中可自己定义回显示函数
+     *
      * @return {Promise}
      */
     Chain.prototype.display = function () {
